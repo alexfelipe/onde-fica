@@ -28,9 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.alura.ondefica.ui.theme.OndeFicaTheme
+import br.com.alura.ondefica.ui.viewmodels.AddressFormUiState
 
 @Composable
 fun AddressForm(
+    uiState: AddressFormUiState,
     onSearchAddressClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -68,8 +70,8 @@ fun AddressForm(
                 )
             }
         }
-        var logradouro by remember {
-            mutableStateOf("")
+        var logradouro by remember(uiState.logradouro) {
+            mutableStateOf(uiState.logradouro)
         }
         TextField(
             value = logradouro,
@@ -94,8 +96,8 @@ fun AddressForm(
                 Text(text = "Número")
             }
         )
-        var bairro by remember {
-            mutableStateOf("")
+        var bairro by remember(uiState.bairro) {
+            mutableStateOf(uiState.bairro)
         }
         TextField(
             value = bairro,
@@ -107,8 +109,8 @@ fun AddressForm(
                 Text(text = "Bairro")
             }
         )
-        var cidade by remember {
-            mutableStateOf("")
+        var cidade by remember(uiState.cidade) {
+            mutableStateOf(uiState.cidade)
         }
         TextField(
             value = cidade,
@@ -120,8 +122,8 @@ fun AddressForm(
                 Text(text = "Cidade")
             }
         )
-        var estado by remember {
-            mutableStateOf("")
+        var estado by remember(uiState.estado) {
+            mutableStateOf(uiState.estado)
         }
         TextField(
             value = estado,
@@ -142,6 +144,7 @@ fun AddressFormPreview() {
     OndeFicaTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             AddressForm(
+                uiState = AddressFormUiState(),
                 onSearchAddressClick = {}
             )
         }
