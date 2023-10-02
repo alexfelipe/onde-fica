@@ -1,5 +1,6 @@
 package br.com.alura.ondefica.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -32,11 +33,24 @@ class AddressViewModel : ViewModel() {
     val uiState = _uiState.asStateFlow()
 
     suspend fun findAddress(cep: String) {
-        val uiState = httpClient.get("https://viacep.com.br/ws/$cep/json/")
-            .body<AddressResponse>()
-            .toAddressFormUiState()
         _uiState.update {
-            uiState
+            it.copy(
+                isLoading = true,
+                isError = false
+            )
+        }
+        _uiState.update {
+            try {
+                httpClient.get("https://viacep.com.br/ws/$cep/json/")
+                    .body<AddressResponse>()
+                    .toAddressFormUiState()
+            } catch (t: Throwable) {
+                Log.e("AddressViewModel", "findAddress: ", t)
+                _uiState.value.copy(
+                    isError = true,
+                    isLoading = false
+                )
+            }
         }
     }
 
@@ -55,13 +69,17 @@ class AddressResponse(
         logradouro = logradouro,
         bairro = bairro,
         cidade = cidade,
-        estado = estado
+        estado = estado,
+        isLoading = false,
+        isError = false
     )
 }
 
-class AddressFormUiState(
+data class AddressFormUiState(
     val logradouro: String = "",
     val bairro: String = "",
     val cidade: String = "",
-    val estado: String = ""
+    val estado: String = "",
+    val isLoading: Boolean = false,
+    val isError: Boolean = false
 )
