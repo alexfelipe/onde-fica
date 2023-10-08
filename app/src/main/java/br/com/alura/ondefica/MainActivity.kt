@@ -15,6 +15,8 @@ import br.com.alura.ondefica.ui.screens.AddressForm
 import br.com.alura.ondefica.ui.theme.OndeFicaTheme
 import br.com.alura.ondefica.ui.viewmodels.AddressViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val scope = rememberCoroutineScope()
-                    val viewModel by viewModels<AddressViewModel>()
+                    val viewModel = koinViewModel<AddressViewModel>()
                     val uiState by viewModel.uiState.collectAsState()
                     AddressForm(
                         uiState,
