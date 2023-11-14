@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.alura.ondefica.ui.theme.OndeFicaTheme
+import br.com.alura.ondefica.ui.transformations.CepVisualTransformation
 import br.com.alura.ondefica.ui.uistates.AddressFormUiState
 
 @Composable
@@ -56,6 +57,7 @@ fun AddressForm(
                     )
                 }
             }
+
             uiState.isLoading -> {
                 Box(Modifier.fillMaxWidth()) {
                     CircularProgressIndicator(
@@ -84,12 +86,15 @@ fun AddressForm(
                 TextField(
                     value = cep,
                     onValueChange = {
-                        cep = it
+                        if (it.length < 9) {
+                            cep = it
+                        }
                     },
                     Modifier.weight(1f),
                     label = {
                         Text(text = "CEP")
-                    }
+                    },
+                    visualTransformation = CepVisualTransformation
                 )
                 IconButton(onClick = { onSearchAddressClick(cep) }) {
                     Icon(
