@@ -55,6 +55,7 @@ dependencies {
     val ktorVersion = "2.3.2"
     val koinVersion = "3.5.0"
 
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-logging:$ktorVersion")
